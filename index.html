@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WYBIE / MUSICAL — passions, projets et univers rock.">
+<title>WYBIE / MUSICAL</title>
+<style>
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;background:#090909;color:#fff;font-family:Arial,Helvetica,sans-serif}
+header{min-height:78vh;text-align:center;padding:100px 15px;display:flex;flex-direction:column;justify-content:center;align-items:center;background:radial-gradient(circle,#591010,#090909 70%)}
+.logo{font-size:clamp(45px,10vw,85px);font-weight:900;color:#f22;letter-spacing:7px;text-shadow:0 0 25px #a00}
+header p{letter-spacing:5px;color:#aaa}
+nav{position:sticky;top:0;background:#111;padding:17px 10px;text-align:center;z-index:10;border-bottom:1px solid #a11;display:flex;justify-content:center;flex-wrap:wrap;gap:18px}
+nav a{color:white;text-decoration:none;font-size:13px;font-weight:bold}
+nav a:hover{color:#f44}
+section{max-width:1000px;margin:auto;padding:65px 20px}
+h2{color:#f33;letter-spacing:3px;text-transform:uppercase}
+.line{height:3px;background:#e22;width:65px;margin:20px 0 30px}
+p{color:#bbb;line-height:1.7}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.card{background:#171717;border:1px solid #401414;border-radius:10px;padding:24px;transition:.2s}
+.card:hover{border-color:red;transform:translateY(-4px)}
+.card h3{color:#f44}
+.band-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px}
+.band-btn{background:#171717;border:1px solid #612020;color:white;padding:22px;border-radius:10px;cursor:pointer;text-align:left}
+.band-btn:hover,.band-btn.active{background:#401010;border-color:red}
+.band-btn h3{font-size:20px;margin:0 0 8px}
+.band-btn span{color:#aaa;font-size:12px}
+#billboard{display:none;margin-top:30px}
+.bill-title{background:linear-gradient(120deg,#780d0d,#160909);padding:30px 20px;border-radius:12px;margin-bottom:20px}
+.bill-title h3{font-size:clamp(22px,5vw,30px);margin:0;color:white}
+.bill-title p{color:#ddd}
+.bill-song{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;background:#171717;padding:14px;margin:8px 0;border-radius:7px;border-bottom:1px solid #441414}
+.rank{color:#ff3333;font-size:22px;font-weight:bold}
+.song-name{font-weight:bold;font-size:14px}
+.spotify-btn{background:#1DB954;color:#071b0e;border:0;border-radius:25px;padding:11px 14px;font-weight:bold;cursor:pointer}
+.spotify-btn:hover{background:#1ed760}
+.back-btn,.main-btn{background:#c91d1d;color:white;border:0;padding:12px 18px;border-radius:6px;cursor:pointer;font-weight:bold}
+footer{text-align:center;background:#111;padding:35px;color:#888;border-top:1px solid #481414}
+@media(max-width:420px){.bill-song{grid-template-columns:32px 1fr}.spotify-btn{grid-column:2;justify-self:start}.logo{letter-spacing:3px}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">WYBIE</div>
+<p>ROCK • MUSIC • PROJECTS</p>
+<a class="main-btn" href="#about" style="text-decoration:none">ENTRER DANS MON UNIVERS</a>
+</header>
+<nav>
+<a href="#about">À PROPOS</a><a href="#passions">PASSIONS</a><a href="#projects">PROJETS</a><a href="#music">MA MUSIQUE</a>
+</nav>
+<section id="about">
+<h2>01 / À propos</h2><div class="line"></div>
+<p>Bienvenue dans mon univers. Je suis Wybie. Ici, je partage mes passions, mes projets et mon amour de la musique.</p>
+</section>
+<section id="passions">
+<h2>02 / Mes passions</h2><div class="line"></div>
+<div class="grid">
+<div class="card"><h3>🎸 Musique</h3><p>Rock, guitare et découvertes musicales.</p></div>
+<div class="card"><h3>🎮 Jeux</h3><p>Mes jeux préférés et mes aventures.</p></div>
+<div class="card"><h3>🎨 Créativité</h3><p>Créer et expérimenter de nouvelles idées.</p></div>
+</div>
+</section>
+<section id="projects">
+<h2>03 / Mes projets</h2><div class="line"></div>
+<div class="grid">
+<div class="card"><h3>Projet #01</h3><p>Mes créations personnelles.</p></div>
+<div class="card"><h3>Projet #02</h3><p>Mes prochaines aventures.</p></div>
+</div>
+</section>
+<section id="music">
+<h2>04 / Ma musique 🎸</h2><div class="line"></div>
+<p>Choisis un groupe pour découvrir une sélection de 10 hits. Appuie sur Spotify pour ouvrir le morceau dans Spotify.</p>
+<div id="band-selection" class="band-grid"></div>
+<div id="billboard">
+<button class="back-btn" onclick="goBack()">← RETOUR AUX GROUPES</button>
+<div class="bill-title"><p>WYBIE / MUSICAL PRESENTS</p><h3 id="bill-name">TOP 10</h3><p>THE ROCK CHART</p></div>
+<div id="song-ranking"></div>
+</div>
+</section>
+<footer>WYBIE / MUSICAL<p>LIVE LOUD. BE YOURSELF. 🤘</p><small>© 2026 — WYBIE</small></footer>
+<script>
+const artists=[
+{name:"NIRVANA",emoji:"💀",genre:"Grunge / Rock",songs:["Smells Like Teen Spirit","Come As You Are","Lithium","Heart-Shaped Box","In Bloom","About a Girl","Rape Me","All Apologies","Drain You","The Man Who Sold the World"]},
+{name:"METALLICA",emoji:"⚡",genre:"Heavy Metal",songs:["Enter Sandman","Master of Puppets","Nothing Else Matters","One","The Unforgiven","Fade to Black","For Whom the Bell Tolls","Seek & Destroy","Sad But True","Fuel"]},
+{name:"AC/DC",emoji:"⚡",genre:"Hard Rock",songs:["Back in Black","Highway to Hell","Thunderstruck","T.N.T.","You Shook Me All Night Long","Hells Bells","Shoot to Thrill","Dirty Deeds Done Dirt Cheap","Whole Lotta Rosie","It's a Long Way to the Top"]},
+{name:"QUEEN",emoji:"👑",genre:"Classic Rock",songs:["Bohemian Rhapsody","Don't Stop Me Now","We Will Rock You","We Are the Champions","Another One Bites the Dust","Somebody to Love","Under Pressure","Killer Queen","Radio Ga Ga","Crazy Little Thing Called Love"]},
+{name:"GUNS N' ROSES",emoji:"🌹",genre:"Hard Rock",songs:["Sweet Child O' Mine","Welcome to the Jungle","November Rain","Paradise City","Nightrain","Patience","Don't Cry","Mr. Brownstone","Rocket Queen","You Could Be Mine"]}
+];
+const selection=document.getElementById("band-selection");
+const billboard=document.getElementById("billboard");
+const ranking=document.getElementById("song-ranking");
+artists.forEach(artist=>{
+ const btn=document.createElement("button");btn.className="band-btn";
+ btn.innerHTML=`<h3>${artist.emoji} ${artist.name}</h3><span>${artist.genre} · TOP 10 →</span>`;
+ btn.onclick=()=>openChart(artist,btn);selection.appendChild(btn);
+});
+function openChart(artist,button){
+ selection.style.display="none";billboard.style.display="block";
+ document.getElementById("bill-name").textContent="TOP 10 — "+artist.name;
+ ranking.innerHTML="";
+ artist.songs.forEach((song,i)=>{
+  const row=document.createElement("div");row.className="bill-song";
+  const rank=document.createElement("div");rank.className="rank";rank.textContent="#"+(i+1);
+  const title=document.createElement("div");title.className="song-name";title.textContent=song;
+  const play=document.createElement("button");play.className="spotify-btn";play.textContent="▶ Spotify";
+  play.onclick=()=>window.open("https://open.spotify.com/search/"+encodeURIComponent(artist.name+" "+song),"_blank","noopener");
+  row.append(rank,title,play);ranking.appendChild(row);
+ });
+ document.getElementById("music").scrollIntoView();
+}
+function goBack(){billboard.style.display="none";selection.style.display="grid";document.getElementById("music").scrollIntoView();}
+</script>
+</body>
+</html>
